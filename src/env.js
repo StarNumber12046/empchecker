@@ -11,11 +11,14 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string()
         : z.string().optional(),
+    BETTER_AUTH_URL: z.string().url().optional(),
     BETTER_AUTH_DISCORD_CLIENT_ID: z.string(),
     BETTER_AUTH_DISCORD_CLIENT_SECRET: z.string(),
     REPLICATE_API_KEY: z.string(),
     PINECONE_DB: z.string(),
     PINECONE_API_KEY: z.string(),
+    TURSO_CONNECTION_URL: z.string().url(),
+    TURSO_AUTH_TOKEN: z.string().optional(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -36,6 +39,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     BETTER_AUTH_DISCORD_CLIENT_ID: process.env.BETTER_AUTH_DISCORD_CLIENT_ID,
     BETTER_AUTH_DISCORD_CLIENT_SECRET:
       process.env.BETTER_AUTH_DISCORD_CLIENT_SECRET,
@@ -43,6 +47,8 @@ export const env = createEnv({
     REPLICATE_API_KEY: process.env.REPLICATE_API_KEY,
     PINECONE_DB: process.env.PINECONE_DB,
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
+    TURSO_CONNECTION_URL: process.env.TURSO_CONNECTION_URL,
+    TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
