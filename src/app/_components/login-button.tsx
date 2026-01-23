@@ -5,7 +5,7 @@ import { authClient } from "~/server/better-auth/client";
 export function LoginButton() {
   return (
     <button
-      className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+      className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-3 font-medium text-white transition-colors duration-200 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
       onClick={async () => {
         await authClient.signIn.social({
           provider: "discord",
@@ -13,6 +13,9 @@ export function LoginButton() {
         });
       }}
     >
+      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.444.864-.607 1.25a18.27 18.27 0 0 0-5.487 0c-.163-.386-.395-.875-.607-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.125-.093.25-.19.37-.288a.074.074 0 0 1 .076-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .075.009c.12.098.245.195.371.288a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.352.699.764 1.364 1.225 1.994a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-3.03.077.077 0 0 0 .032-.056c.5-4.506.053-8.926-.599-13.594a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-.967-2.157-2.156 0-1.19.974-2.157 2.157-2.157 1.19 0 2.169.967 2.157 2.157 0 1.19-.967 2.156-2.157 2.156zm7.975 0c-1.183 0-2.157-.967-2.157-2.156 0-1.19.974-2.157 2.157-2.157 1.19 0 2.169.967 2.157 2.157 0 1.19-.967 2.156-2.157 2.156z" />
+      </svg>
       Sign in with Discord
     </button>
   );
