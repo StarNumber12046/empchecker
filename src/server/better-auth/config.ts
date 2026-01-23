@@ -1,8 +1,12 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, discord } from "better-auth";
+import { env } from "~/env";
 
 export const auth = betterAuth({
-  emailAndPassword: {
-    enabled: true,
+  socialProviders: {
+    discord: {
+      clientId: env.BETTER_AUTH_DISCORD_CLIENT_ID,
+      clientSecret: env.BETTER_AUTH_DISCORD_CLIENT_SECRET,
+    },
   },
 });
 

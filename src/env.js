@@ -11,8 +11,11 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string()
         : z.string().optional(),
-    BETTER_AUTH_GITHUB_CLIENT_ID: z.string(),
-    BETTER_AUTH_GITHUB_CLIENT_SECRET: z.string(),
+    BETTER_AUTH_DISCORD_CLIENT_ID: z.string(),
+    BETTER_AUTH_DISCORD_CLIENT_SECRET: z.string(),
+    REPLICATE_API_KEY: z.string(),
+    PINECONE_DB: z.string(),
+    PINECONE_API_KEY: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -33,10 +36,13 @@ export const env = createEnv({
    */
   runtimeEnv: {
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-    BETTER_AUTH_GITHUB_CLIENT_ID: process.env.BETTER_AUTH_GITHUB_CLIENT_ID,
-    BETTER_AUTH_GITHUB_CLIENT_SECRET:
-      process.env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
+    BETTER_AUTH_DISCORD_CLIENT_ID: process.env.BETTER_AUTH_DISCORD_CLIENT_ID,
+    BETTER_AUTH_DISCORD_CLIENT_SECRET:
+      process.env.BETTER_AUTH_DISCORD_CLIENT_SECRET,
     NODE_ENV: process.env.NODE_ENV,
+    REPLICATE_API_KEY: process.env.REPLICATE_API_KEY,
+    PINECONE_DB: process.env.PINECONE_DB,
+    PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
