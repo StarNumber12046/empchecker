@@ -19,6 +19,7 @@ export const env = createEnv({
     PINECONE_API_KEY: z.string(),
     TURSO_CONNECTION_URL: z.string().url(),
     TURSO_AUTH_TOKEN: z.string().optional(),
+    CAT_OWNER_ID: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -49,6 +50,7 @@ export const env = createEnv({
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     TURSO_CONNECTION_URL: process.env.TURSO_CONNECTION_URL,
     TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+    CAT_OWNER_ID: process.env.CAT_OWNER_ID,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

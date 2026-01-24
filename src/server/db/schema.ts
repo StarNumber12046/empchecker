@@ -14,12 +14,22 @@ export const images = createTable(
   {
     id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
     phash: text("phash", { length: 256 }).notNull(),
-    discordId: text("discord_id", { length: 256 }).notNull(),
     createdAt: int("created_at", { mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
   },
 );
+
+export const scans = createTable("scan", {
+  id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  imageId: int("image_id", { mode: "number" })
+    .notNull()
+    .references(() => images.id),
+  discordId: text("discord_id", { length: 256 }).notNull(),
+  createdAt: int("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+});
 
 export const user = createTable("user", {
   id: text("id").primaryKey(),

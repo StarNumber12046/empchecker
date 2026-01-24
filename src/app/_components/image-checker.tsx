@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 
 interface CheckResult {
   status?: string;
+  isReal?: boolean;
   id?: string;
   details?: {
     matchId?: number | string;
@@ -17,12 +18,14 @@ interface CheckResult {
 
 export function ImageChecker() {
   const [result, setResult] = useState<string | null>(null);
+  const [isReal, setIsReal] = useState<boolean>(false);
   const [details, setDetails] = useState<CheckResult["details"]>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
   const checkPose = api.emp.checkAndStorePose.useMutation({
     onSuccess: (data) => {
       setResult(data.status ?? null);
+      setIsReal(data.isReal ?? false);
       if ("details" in data) {
         setDetails(data.details as CheckResult["details"]);
       } else if (data.status === "new" && "id" in data) {
@@ -31,6 +34,7 @@ export function ImageChecker() {
     },
     onError: (error) => {
       setResult("Error: " + error.message);
+      setIsReal(false);
       setDetails(null);
     },
   });
@@ -116,13 +120,13 @@ export function ImageChecker() {
         {result && (
           <div
             className={`mt-6 rounded-lg p-6 ${
-              result === "new"
+              isReal
                 ? "border border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/30"
                 : "border border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/30"
             }`}
           >
             <div className="flex items-start gap-3">
-              {result === "new" ? (
+              {isReal ? (
                 <svg
                   className="mt-0.5 h-6 w-6 flex-shrink-0 text-emerald-600 dark:text-emerald-400"
                   fill="currentColor"
@@ -149,13 +153,13 @@ export function ImageChecker() {
               )}
               <div className="flex-1">
                 <p
-                  className={`font-semibold ${result === "new" ? "text-emerald-900 dark:text-emerald-200" : "text-red-900 dark:text-red-200"}`}
+                  className={`font-semibold ${isReal ? "text-emerald-900 dark:text-emerald-200" : "text-red-900 dark:text-red-200"}`}
                 >
-                  {result === "new" ? "New Image" : "Duplicate Found"}
+                  {result}
                 </p>
                 {details && (
                   <div
-                    className={`mt-3 space-y-2 text-sm ${result === "new" ? "text-emerald-800 dark:text-emerald-300" : "text-red-800 dark:text-red-300"}`}
+                    className={`mt-3 space-y-2 text-sm ${isReal ? "text-emerald-800 dark:text-emerald-300" : "text-red-800 dark:text-red-300"}`}
                   >
                     {details.uploaderDiscordId && (
                       <p>
