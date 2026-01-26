@@ -1,29 +1,92 @@
-# Create T3 App
+# EMP Checker
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A robust image verification and uniqueness checking tool built with the T3 Stack. This application allows users to upload images and verify their "realness" or uniqueness against a database of previously scanned images using both perceptual hashing (pHash) and vector embeddings.
 
-## What's next? How do I make an app with this?
+## 🚀 Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+-   **Image Uniqueness Check:** Uses Perceptual Hashing (pHash) to detect exact or near-exact duplicates.
+-   **Semantic Search:** Uses Vector Embeddings (via Pinecone) to detect semantically similar images even if they are resized or slightly modified.
+-   **Provenance Tracking:** Tracks who "scanned" (uploaded) an image first.
+-   **"Realness" Verification:** specific logic to determine if an image is "Real" or "Fake" based on trusted uploaders (e.g., specific Discord users).
+-   **Discord Authentication:** Secure login using Discord via Better Auth.
+-   **Modern UI:** Clean, responsive interface built with Tailwind CSS and Next.js.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## 🛠️ Tech Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+-   **Framework:** [Next.js](https://nextjs.org/) (App Router)
+-   **Language:** [TypeScript](https://www.typescriptlang.org/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **API:** [tRPC](https://trpc.io/)
+-   **Database (Relational):** SQLite / LibSQL (via [Drizzle ORM](https://orm.drizzle.team/))
+-   **Database (Vector):** [Pinecone](https://www.pinecone.io/)
+-   **Authentication:** [Better Auth](https://www.better-auth.com/)
+-   **Image Processing:** `sharp`, `blockhash-core`
 
-## Learn More
+## ⚙️ How It Works
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1.  **Upload:** A user uploads an image via the web interface.
+2.  **Processing:**
+    *   The backend decodes the image.
+    *   **pHash:** A perceptual hash is calculated to find near-duplicates (Hamming distance < 4).
+    *   **Embedding:** A vector embedding is generated (likely using a model via Replicate) and queried against the Pinecone index (Cosine similarity > 0.96).
+3.  **Verification:**
+    *   The system checks if the image exists in the database.
+    *   It cross-references the uploader against a list of known trusted users ("Cat Owner").
+    *   It returns a status: "New", "Already scanned by [User]", or "Fake".
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## 📦 Getting Started
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### Prerequisites
 
-## How do I deploy this?
+-   Node.js (v20+ recommended)
+-   pnpm
+-   A Pinecone account
+-   A Discord Application (for OAuth)
+-   A Replicate account (for embeddings)
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/StarNumber12046/empchecker.git
+    cd empchecker
+    ```
+
+2.  Install dependencies:
+    ```bash
+    pnpm install
+    ```
+
+3.  Set up environment variables:
+    Copy the example environment file (if available) or create a `.env` file with the following keys:
+    ```env
+    DATABASE_URL="file:local.db" # or your LibSQL URL
+    PINECONE_API_KEY="..."
+    PINECONE_INDEX="..."
+    DISCORD_CLIENT_ID="..."
+    DISCORD_CLIENT_SECRET="..."
+    BETTER_AUTH_SECRET="..."
+    BETTER_AUTH_URL="http://localhost:3000"
+    REPLICATE_API_TOKEN="..."
+    CAT_OWNER_ID="..." # Discord ID of the trusted user
+    ```
+
+4.  Push the database schema:
+    ```bash
+    pnpm db:push
+    ```
+
+5.  Run the development server:
+    ```bash
+    pnpm dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+[MIT](LICENSE)
